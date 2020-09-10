@@ -10,6 +10,7 @@ namespace Delete_Empty_Rows_From_Docs
    class ProgramLogic
    {
       private readonly string[] _supportedExtensions = new string[] { ".txt", ".html" };
+      private readonly string[] _separator = new string[] { "\r\n" };
 
       /// <returns>Number of affected rows</returns>
       public int DeleteEmptyRaws(string filePath)
@@ -25,7 +26,7 @@ namespace Delete_Empty_Rows_From_Docs
             int counter = 0;
             StringBuilder content = new StringBuilder();
             string source = File.ReadAllText(filePath);
-            string[] ar = source.Split(new string[] { "\r\n"}, StringSplitOptions.None);
+            string[] ar = source.Split(_separator, StringSplitOptions.None);
             foreach (string item in ar)
             {
                if (StringHasOnlySpaces(item))
