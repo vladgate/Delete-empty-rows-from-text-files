@@ -11,6 +11,5 @@ namespace Delete_Empty_Rows_From_Docs
         event EventHandler SelectFileClick;
         event EventHandler DeleteEmptyRawsClick;
         string FilePath { get; set; }
-        string Encoding { get; set; }
     }
 }

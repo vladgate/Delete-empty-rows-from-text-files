@@ -9,15 +9,23 @@ namespace Delete_Empty_Rows_From_Docs
 {
    class ProgramLogic
    {
+      private readonly string[] _supportedExtensions = new string[] { ".txt", ".html" };
+
       /// <returns>Number of affected rows</returns>
-      public int DeleteEmptyRaws(string filePath, int encoding)
+      public int DeleteEmptyRaws(string filePath)
       {
          if (File.Exists(filePath))
          {
+            string ext = Path.GetExtension(filePath);
+            if (!_supportedExtensions.Contains(ext))
+            {
+               throw new NotSupportedException();
+            }
+
             int counter = 0;
             StringBuilder content = new StringBuilder();
-            string source = File.ReadAllText(filePath, Encoding.GetEncoding(encoding));
-            string[] ar = source.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+            string source = File.ReadAllText(filePath);
+            string[] ar = source.Split(new string[] { "\r\n"}, StringSplitOptions.None);
             foreach (string item in ar)
             {
                if (StringHasOnlySpaces(item))
@@ -33,7 +41,7 @@ namespace Delete_Empty_Rows_From_Docs
 
             }
 
-            File.WriteAllText(filePath, content.ToString(), Encoding.GetEncoding(encoding));
+            File.WriteAllText(filePath, content.ToString());
             return counter;
          }
          else

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Delete_Empty_Rows_From_Docs
       private void _mainForm_SelectFileClick(object sender, EventArgs e)
       {
          OpenFileDialog dialog = new OpenFileDialog();
-         dialog.Filter = "Text flles (*.txt;*.html;*.doc;*.docx)|*.txt;*.html;*.doc;*.docx";
+         dialog.Filter = "Text flles (*.txt;*.html)|*.txt;*.html"; //TODO:+ ;*.doc;*.docx
          DialogResult dr = dialog.ShowDialog();
          if (dr == DialogResult.OK)
          {
@@ -41,7 +42,7 @@ namespace Delete_Empty_Rows_From_Docs
 
          try
          {
-            int affectedRowsCount = _logic.DeleteEmptyRaws(_mainForm.FilePath, Int32.Parse(_mainForm.Encoding));
+            int affectedRowsCount = _logic.DeleteEmptyRaws(_mainForm.FilePath);
             if (affectedRowsCount == 0)
             {
                _messageService.ShowMessage("There are no empty rows in the file.");
@@ -50,6 +51,14 @@ namespace Delete_Empty_Rows_From_Docs
             {
                _messageService.ShowMessage("Success! Deleted " + affectedRowsCount + " empty row(s).");
             }
+         }
+         catch (FileNotFoundException)
+         {
+            _messageService.ShowMessage("Error! File not found!");
+         }
+         catch (NotSupportedException)
+         {
+            _messageService.ShowMessage("Error! Extension not supported!");
          }
          catch (Exception ex)
          {

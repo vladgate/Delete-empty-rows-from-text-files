@@ -32,19 +32,6 @@ namespace Delete_Empty_Rows_From_Docs
             }
         }
 
-        public string Encoding
-        {
-            get
-            {
-                return txtEncoding.Text;
-            }
-
-            set
-            {
-                txtEncoding.Text = value;
-            }
-        }
-
         private void btnSelectFile_Click(object sender, EventArgs e)
         {
             SelectFileClick?.Invoke(sender, e);
